@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import rospy
 import math
+from operator import itemgetter
 from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist
 
@@ -14,39 +15,30 @@ class Obstacle():
     def __init__(self):
         self._cmd_pub = rospy.Publisher('cmd_vel', Twist, queue_size=1)
         self.obstacle()
-        
-    def get_scan(self):
+
+    def get_scan_try(self):
         scan = rospy.wait_for_message('scan', LaserScan)
         scan_filter = []
-       
-        samples = len(scan.ranges)  # The number of samples is defined in 
-                                    # turtlebot3_<model>.gazebo.xacro file,
-                                    # the default is 360.
-        samples_view = 1            # 1 <= samples_view <= samples
-        
-        if samples_view > samples:
-            samples_view = samples
-
-        if samples_view is 1:
-            scan_filter.append(scan.ranges[0])
-
-        else:
-            left_lidar_samples_ranges = -(samples_view//2 + samples_view % 2)
-            right_lidar_samples_ranges = samples_view//2
-            
-            # looks like this contains ALL values (front and back and side sensors), split into left and right
-            # for wall follow, only the fron should be needed
-            left_lidar_samples = scan.ranges[left_lidar_samples_ranges:]
-            right_lidar_samples = scan.ranges[:right_lidar_samples_ranges]
-            scan_filter.extend(left_lidar_samples + right_lidar_samples)
-            # scan_filter.extend(left_lidar_samples)
-
-        for i in range(samples_view):
-            if scan_filter[i] == float('Inf'):
-                scan_filter[i] = 3.5
-            elif math.isnan(scan_filter[i]):
-                scan_filter[i] = 0
-        
+        rf = scan.ranges[9]
+        rdf = scan.ranges[44]
+        r = scan.ranges[89]
+        rdb = scan.ranges[134]
+        rb = scan.ranges[169]
+        lb = scan.ranges[189]
+        ldb = scan.ranges[224]
+        l = scan.ranges[269]
+        ldf = scan.ranges[314]
+        lf = scan.ranges[349]
+        scan_filter.append(rf)
+        scan_filter.append(rdf)
+        scan_filter.append(r)
+        scan_filter.append(rdb)
+        scan_filter.append(rb)
+        scan_filter.append(lb)
+        scan_filter.append(ldb)
+        scan_filter.append(l)
+        scan_filter.append(ldf)
+        scan_filter.append(lf)
         return scan_filter
 
     def obstacle(self):
@@ -54,25 +46,36 @@ class Obstacle():
         turtlebot_moving = True
 
         while not rospy.is_shutdown():
-            lidar_distances = self.get_scan()
+            # order: rf, rdf, r, rdb, rb, lb, ldb, l, ldf, lf
+            lidar_distances = self.get_scan_try()
             min_distance = min(lidar_distances)
-
-            if min_distance < SAFE_STOP_DISTANCE:
-                if turtlebot_moving:
-                    twist.linear.x = 0.0
-                    twist.angular.z = 0.0
-                    self._cmd_pub.publish(twist)
-                    turtlebot_moving = False
-                    rospy.loginfo('Stop!')
+            min_index = min(enumerate(lidar_distances), key=itemgetter(1))[0]
+            lf = lidar_distances[9]
+            left = lidar_distances[2]
+            if lf < SAFE_STOP_DISTANCE:
+                print("Turning right...")
+                twist.linear.x = 0.0
+                twist.angular.z = -math.pi/2
+                self._cmd_pub.publish(twist)
+            # case: wall to the left -> drive along wall (should work on both straight and curved obstacles)
+            #elif left > 3.0 and left < 3.4:
+             #   print("Driving along wall...")
+              #  twist.angular.z = 1/(1 - (0.05 - left))
+               # twist.linear.x = (1 / (1 - (0.05 - left)))/2
+                #self._cmd_pub.publish(twist)
+                # right_val = (1/(2-(0.05 - left)))/2 + 1/(1 - (0.05 - ldf)) + 1/(1 - (0.05 - lb))
+            # base case: follow line (simply drives straight slowly while not on the line)
             else:
+                print("Going straight...")
                 twist.linear.x = LINEAR_VEL
                 twist.angular.z = 0.0
+                if left > 3.0 and left < 3.4:
+                    twist.angular.x = LINEAR_VEL
+                    twist.angular.z = math.pi/8
                 self._cmd_pub.publish(twist)
-                turtlebot_moving = True
-                rospy.loginfo('Distance of the obstacle : %f', min_distance)
 
 def main():
-    rospy.init_node('turtlebot3_obstacle')
+    rospy.init_node('turtlebot3_obstacle_test')
     try:
         obstacle = Obstacle()
     except rospy.ROSInterruptException:
