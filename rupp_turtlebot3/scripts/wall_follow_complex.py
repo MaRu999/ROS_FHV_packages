@@ -50,60 +50,65 @@ class Obstacle():
             lidar_distances = self.get_scan_try()
             min_distance = min(lidar_distances)
             min_index = min(enumerate(lidar_distances), key=itemgetter(1))[0]
-            rf = lidar_distances[0]
-            rdf = lidar_distances[1]
-            r = lidar_distances[2]
-            rdb = lidar_distances[3]
-            rb = lidar_distances[4]
-            lb = lidar_distances[5]
-            ldb = lidar_distances[6]
-            l = lidar_distances[7]
-            ldf = lidar_distances[8]
-            lf = lidar_distances[9]
+            lf = lidar_distances[0]
+            ldf = lidar_distances[1]
+            l = lidar_distances[2]
+            ldb = lidar_distances[3]
+            lb = lidar_distances[4]
+            rb = lidar_distances[5]
+            rdb = lidar_distances[6]
+            r = lidar_distances[7]
+            rdf = lidar_distances[8]
+            rf = lidar_distances[9]
             left_turn = math.pi/2
             small_left_turn = math.pi/4
             if lf < SAFE_STOP_DISTANCE:
-                print("Turning left...")
+                print("LF")
                 twist.linear.x = 0.0
                 twist.angular.z = left_turn
                 self._cmd_pub.publish(twist)
             elif rf < SAFE_STOP_DISTANCE:
-                print("Turning right...")
+                print("RF")
                 twist.linear.x = 0.0
                 twist.angular.z = -left_turn
                 self._cmd_pub.publish(twist)
             elif r < SAFE_STOP_DISTANCE:
-                print("Going along wall (right)...")
+                print("R")
                 twist.linear.x = LINEAR_VEL
                 twist.angular.z = -math.pi/16
                 self._cmd_pub.publish(twist)
             elif l < SAFE_STOP_DISTANCE:
-                print("Going along wall (left)...")
+                print("L")
                 twist.linear.x = LINEAR_VEL
                 twist.angular.z = math.pi/16
                 self._cmd_pub.publish(twist)
             elif rdf < SAFE_STOP_DISTANCE:
-                print("Small turn right...")
+                print("RDF")
                 twist.linear.x = LINEAR_VEL//2
                 twist.angular.z = -small_left_turn
                 self._cmd_pub.publish(twist)
             elif ldf < SAFE_STOP_DISTANCE:
-                print("Small turn left...")
+                print("LDF")
                 twist.linear.x = LINEAR_VEL//2
                 twist.angular.z = small_left_turn
                 self._cmd_pub.publish(twist)
-            elif lb < SAFE_STOP_DISTANCE or rb < SAFE_STOP_DISTANCE:
-                print("Turn around...")
+            elif lb < SAFE_STOP_DISTANCE:
+                print("LB")
+                twist.linear.x = 0.0
+                twist.angular.z = math.pi
+                self._cmd_pub.publish(twist)
+            elif rb < SAFE_STOP_DISTANCE:
+                print("RB")
                 twist.linear.x = 0.0
                 twist.angular.z = math.pi
                 self._cmd_pub.publish(twist)
             elif ldb < SAFE_STOP_DISTANCE:
-                print("Turn 135 degrees left...")
+                print("LDB")
                 twist.linear.x = 0.0
                 twist.angular.z = math.pi*(5//4)
                 self._cmd_pub.publish(twist)
             elif rdb < SAFE_STOP_DISTANCE:
-                print("Turn 135 degrees right...")
+                print("RDB")
                 twist.linear.x = 0.0
                 twist.angular.z = -math.pi*(5//4)
                 self._cmd_pub.publish(twist)
