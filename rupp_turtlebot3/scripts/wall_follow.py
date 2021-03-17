@@ -50,28 +50,32 @@ class Obstacle():
             lidar_distances = self.get_scan_try()
             min_distance = min(lidar_distances)
             min_index = min(enumerate(lidar_distances), key=itemgetter(1))[0]
-            lf = lidar_distances[9]
-            left = lidar_distances[2]
+            lf = lidar_distances[0]
+            ldf = lidar_distances[1]
+            l = lidar_distances[2]
+            ldb = lidar_distances[3]
+            lb = lidar_distances[4]
+            rb = lidar_distances[5]
+            rdb = lidar_distances[6]
+            r = lidar_distances[7]
+            rdf = lidar_distances[8]
+            rf = lidar_distances[9]
+            left_turn = math.pi/2
+            small_left_turn = math.pi/4
             if lf < SAFE_STOP_DISTANCE:
-                print("Turning right...")
+                print("LF")
                 twist.linear.x = 0.0
-                twist.angular.z = -math.pi/2
+                twist.angular.z = left_turn
                 self._cmd_pub.publish(twist)
-            # case: wall to the left -> drive along wall (should work on both straight and curved obstacles)
-            #elif left > 3.0 and left < 3.4:
-             #   print("Driving along wall...")
-              #  twist.angular.z = 1/(1 - (0.05 - left))
-               # twist.linear.x = (1 / (1 - (0.05 - left)))/2
-                #self._cmd_pub.publish(twist)
-                # right_val = (1/(2-(0.05 - left)))/2 + 1/(1 - (0.05 - ldf)) + 1/(1 - (0.05 - lb))
-            # base case: follow line (simply drives straight slowly while not on the line)
+            elif r < SAFE_STOP_DISTANCE:
+                print("R")
+                twist.linear.x = LINEAR_VEL
+                twist.angular.z = -math.pi/16
+                self._cmd_pub.publish(twist)
             else:
                 print("Going straight...")
                 twist.linear.x = LINEAR_VEL
                 twist.angular.z = 0.0
-                if left > 3.0 and left < 3.4:
-                    twist.angular.x = LINEAR_VEL
-                    twist.angular.z = math.pi/8
                 self._cmd_pub.publish(twist)
 
 def main():

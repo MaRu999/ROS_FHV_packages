@@ -67,50 +67,10 @@ class Obstacle():
                 twist.linear.x = 0.0
                 twist.angular.z = left_turn
                 self._cmd_pub.publish(twist)
-            elif rf < SAFE_STOP_DISTANCE:
-                print("RF")
-                twist.linear.x = 0.0
-                twist.angular.z = -left_turn
-                self._cmd_pub.publish(twist)
             elif r < SAFE_STOP_DISTANCE:
                 print("R")
                 twist.linear.x = LINEAR_VEL
                 twist.angular.z = -math.pi/16
-                self._cmd_pub.publish(twist)
-            elif l < SAFE_STOP_DISTANCE:
-                print("L")
-                twist.linear.x = LINEAR_VEL
-                twist.angular.z = math.pi/16
-                self._cmd_pub.publish(twist)
-            elif rdf < SAFE_STOP_DISTANCE:
-                print("RDF")
-                twist.linear.x = LINEAR_VEL//2
-                twist.angular.z = -small_left_turn
-                self._cmd_pub.publish(twist)
-            elif ldf < SAFE_STOP_DISTANCE:
-                print("LDF")
-                twist.linear.x = LINEAR_VEL//2
-                twist.angular.z = small_left_turn
-                self._cmd_pub.publish(twist)
-            elif lb < SAFE_STOP_DISTANCE:
-                print("LB")
-                twist.linear.x = 0.0
-                twist.angular.z = math.pi
-                self._cmd_pub.publish(twist)
-            elif rb < SAFE_STOP_DISTANCE:
-                print("RB")
-                twist.linear.x = 0.0
-                twist.angular.z = math.pi
-                self._cmd_pub.publish(twist)
-            elif ldb < SAFE_STOP_DISTANCE:
-                print("LDB")
-                twist.linear.x = 0.0
-                twist.angular.z = math.pi*(5//4)
-                self._cmd_pub.publish(twist)
-            elif rdb < SAFE_STOP_DISTANCE:
-                print("RDB")
-                twist.linear.x = 0.0
-                twist.angular.z = -math.pi*(5//4)
                 self._cmd_pub.publish(twist)
             else:
                 print("Going straight...")
