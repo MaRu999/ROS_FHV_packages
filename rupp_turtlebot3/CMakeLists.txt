@@ -177,6 +177,7 @@ include_directories(
 ## in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS
   scripts/wall_follow.py scripts/wall_follow_complex.py scripts/image_show.py
+  scripts/tcp_client.py scripts/tcp_server.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
