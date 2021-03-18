@@ -20,10 +20,16 @@ find_package(catkin REQUIRED COMPONENTS
   turtlebot3_navigation
   turtlebot3_slam
   turtlebot3_teleop
+  cv_bridge
 )
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
+find_package(OpenCV REQUIRED)
+# find_package(catkin REQUIRED COMPONENTS
+#   cv_bridge
+#   cv2
+# )
+
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -158,6 +164,7 @@ include_directories(
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
+# target_link_libraries(${PROJECT_NAME}_node ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
 #############
 ## Install ##
@@ -169,7 +176,7 @@ include_directories(
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS
-  scripts/wall_follow.py scripts/wall_follow_complex.py
+  scripts/wall_follow.py scripts/wall_follow_complex.py scripts/image_show.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
