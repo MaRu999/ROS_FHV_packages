@@ -1,4 +1,5 @@
 <launch>
+  <arg name="group_name" default="collaborator"/>
   <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/>
   <arg name="x_pos" default="0.0"/>
   <arg name="y_pos" default="0.0"/>
@@ -7,6 +8,7 @@
   <arg name="x_pos_2" default="1.0"/>
   <arg name="y_pos_2" default="0.0"/>
   <arg name="z_pos_2" default="0.0"/>
+  <arg name="node_start_delay" default="10.0"/>
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(find turtlebot3_gazebo)/worlds/empty.world"/>
     <arg name="paused" value="false"/>
@@ -18,14 +20,16 @@
 
 
   
-
+  <node pkg="rupp_turtlebot3" name="start_server" type="tcp_server.py" output="screen"/>
   <group ns="collaborator_1">
     <param name="robot_description" command="$(find xacro)/xacro $(find turtlebot3_description)/urdf/turtlebot3_$(arg model).urdf.xacro" />
     <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model turtlebot3_burger -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -param robot_description" />
+    <node pkg="rupp_turtlebot3" name="ctcp_lient_1" type="tcp_client.py" args="-n /collaborator_1" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>
   </group>
   <group ns="collaborator_2">
     <param name="robot_description" command="$(find xacro)/xacro $(find turtlebot3_description)/urdf/turtlebot3_$(arg model_2).urdf.xacro" />
     <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model turtlebot3_burger_2 -x $(arg x_pos_2) -y $(arg y_pos_2) -z $(arg z_pos_2) -param robot_description" />
+    <node pkg="rupp_turtlebot3" name="ctcp_lient_1" type="tcp_client.py" args="-n /collaborator_2" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>
   </group>
 
 </launch>
