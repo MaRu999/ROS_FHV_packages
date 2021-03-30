@@ -60,7 +60,7 @@
   <build_depend>turtlebot3_fake</build_depend>
   <build_depend>turtlebot3_gazebo</build_depend>
   <build_depend>turtlebot3_msgs</build_depend>
-  <build_depend>turtlebot3_nacigation</build_depend>
+  <build_depend>turtlebot3_navigation</build_depend>
   <build_depend>turtlebot3_slam</build_depend>
   <build_depend>turtlebot3_teleop</build_depend>
   <build_export_depend>roscpp</build_export_depend>
@@ -72,7 +72,7 @@
   <build_export_depend>turtlebot3_fake</build_export_depend>
   <build_export_depend>turtlebot3_gazebo</build_export_depend>
   <build_export_depend>turtlebot3_msgs</build_export_depend>
-  <build_export_depend>turtlebot3_nacigation</build_export_depend>
+  <build_export_depend>turtlebot3_navigation</build_export_depend>
   <build_export_depend>turtlebot3_slam</build_export_depend>
   <build_export_depend>turtlebot3_teleop</build_export_depend>
   <exec_depend>roscpp</exec_depend>
@@ -84,7 +84,7 @@
   <exec_depend>turtlebot3_fake</exec_depend>
   <exec_depend>turtlebot3_gazebo</exec_depend>
   <exec_depend>turtlebot3_msgs</exec_depend>
-  <exec_depend>turtlebot3_nacigation</exec_depend>
+  <exec_depend>turtlebot3_navigation</exec_depend>
   <exec_depend>turtlebot3_slam</exec_depend>
   <exec_depend>turtlebot3_teleop</exec_depend>
   <exec_depend>cv_bridge</exec_depend>
