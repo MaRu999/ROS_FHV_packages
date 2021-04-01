@@ -178,6 +178,7 @@ include_directories(
 catkin_install_python(PROGRAMS
   scripts/wall_follow.py scripts/wall_follow_complex.py scripts/image_show.py
   scripts/tcp_client.py scripts/tcp_server.py scripts/go_to_nearest.py
+  scripts/go_to_nearest_generic.py scripts/wall_follow_generic.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

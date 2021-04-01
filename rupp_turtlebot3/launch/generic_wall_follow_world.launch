@@ -1,0 +1,4 @@
+<launch>
+    <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_world.launch"/>
+    <node pkg="rupp_turtlebot3" name="wall_follow_generic" type="wall_follow_generic.py" output="screen"/>
+</launch>
