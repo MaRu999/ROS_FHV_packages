@@ -1,4 +1,4 @@
 <launch>
     <include file="$(find rupp_turtlebot3)/launch/modified_world.launch"/>
-    <node pkg="rupp_turtlebot3" name="test_image" type="image_show.py" output="screen"/>
+    <node pkg="rupp_turtlebot3" name="show_image" type="image_show.py" output="screen"/>
 </launch>

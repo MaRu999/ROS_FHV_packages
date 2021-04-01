@@ -4,7 +4,8 @@ Contains nodes/worlds/launch files etc. created for the turtlebot3-exercises.
 ## Scripts
 Contains all python scripts done for the exercises.
 ### go_to_nearest.py
-Script for heading towards nearest object that robot can detect with his LIDAR sensor.
+Script for heading towards nearest object that robot can detect with its LIDAR sensor.
+The robot will stop a short distance before the object.
 ### image_show.py
 Shows image captured by the robot's camera.
 Needs robot model with camera (e.g. waffle) to work.
@@ -32,8 +33,10 @@ Only really works with very simple stages.
 Contains the launch files for the exercises.
 It is recommended to use roslaunch in combination with these launch files instead of starting the nodes one by one (though it is still possible).
 ### collab.launch
-Launches an empty world, places two turtlebots in it and then launches a tcp server and a tcp client for each robot.
+Launches an empty world, places two turtlebots in it and then launches a tcp server and then a tcp client for each robot.
 Will print the messages the server and the client exchange to the screen.
+Note: there is a delay (specified in this launch file) between the world load/start of the tcp server and the robot spawn and start of the clients.
+This is so everything needed exists before the robot spawns/launch of the tcp clients.
 ### complex_wall_follow_stage_1.launch
 Uses the existing stage_1 launch file (from turtlebot3) to load stage 1 and spawn a turtlebot.
 Also launches the complex wall follower.
@@ -43,7 +46,7 @@ Should the turtlebot stop wall following, check whether there are still new prin
 ### complex_wall_follow_world.launch
 Same as "complex_wall_follow_stage_1", only using the world launch file instead of the stage 1 launch file.
 ### goto_simple.launch
-Loads the very simple world (only one object in close proximity to the robot), spawns a robot and launches a go_to_nearest node.
+Loads the very simple world (only one object in close proximity to the robot and one further away), spawns a robot and launches a go_to_nearest node.
 Robot should head straight for the object.
 ### goto_spheres.launch
 Similar to goto_simple, only the loaded world contains several spheres in various proximities to the robot.
@@ -60,7 +63,7 @@ Also launches an image_show node.
 Images ill be opened in new extra windows.
 Note: to control the turtlebot, use this launch file, then execute "rosrun turtlebot3_teleop turtlebot3_teleop_key".
 ### simple_world.launch
-Loads the world with only one object in it created for the go_to_nearest node and spawns a robot in it.
+Loads the world with only two objects in it created for the go_to_nearest node and spawns a robot in it.
 Used in other launch files.
 ### spheres_world.launch
 Loads the world with several spheres in it created for the go_to_nearest node and spawns a robot in it.
@@ -78,7 +81,7 @@ Same as "wall_follow_stage_1", only using the world launch file instead of the s
 Contains custom worlds created for the sake of the exercises.
 The worlds already provided by the turtlebot3 package can be found under "turtlebot3_simulations/turtlebot3_gazebo/worlds".
 ### goto_nearest_simple.world
-A world only containing one object close to the origin (x,y,z = 0).
+A world only containing one object close to the origin (x,y,z = 0) and another one further away.
 ### goto_nearest_spheres.world
 A world containing several spheres in various proximities to the origin.
 ### turtlebot3_stage1_modified.world
