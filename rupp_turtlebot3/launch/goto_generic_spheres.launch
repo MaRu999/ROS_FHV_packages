@@ -1,4 +1,4 @@
 <launch>
     <include file="$(find rupp_turtlebot3)/launch/spheres_world.launch"/>
-    <node pkg="rupp_turtlebot3" name="goto" type="go_to_nearest_generic.py" output="screen"/>
+    <node pkg="rupp_turtlebot3" name="goto_generic" type="go_to_nearest_generic.py" output="screen"/>
 </launch>
