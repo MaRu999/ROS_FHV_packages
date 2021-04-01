@@ -1,0 +1,7 @@
+<launch>
+    <include file="$(find package_tutorial_rupp)/launch/params.launch"/>
+    <node pkg="turtlesim" name="turtle1" type="turtlesim_node" output="screen"/>
+    <node pkg="package_tutorial_rupp" name="control" type="config_publish.py"/>
+    <node pkg="package_tutorial_rupp" name="aggregate" type="aggregate_subscriber_custom_msg.py" output="screen"/>
+    <node pkg="package_tutorial_rupp" name="logger" type="log_state.py" output="screen"/>
+</launch>

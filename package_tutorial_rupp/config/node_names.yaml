@@ -1,0 +1,3 @@
+    log_node_name: "logging_node"
+    aggregate_node_name: "aggregator_node"
+    control_node_name: "control_node"

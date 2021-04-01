@@ -1,0 +1,3 @@
+log_sleep_time: 0.9
+publish_rate: 5
+aggregator_rate: 5

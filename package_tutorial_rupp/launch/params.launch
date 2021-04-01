@@ -1,0 +1,6 @@
+<launch>
+    <rosparam file="$(find package_tutorial_rupp)/config/movement.yaml" />
+    <rosparam file="$(find package_tutorial_rupp)/config/rates.yaml" />
+    <rosparam file="$(find package_tutorial_rupp)/config/node_names.yaml" />
+    <param name="path_to_package" type="string" value="$(find package_tutorial_rupp)"/>
+</launch>

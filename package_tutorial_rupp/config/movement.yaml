@@ -1,0 +1,6 @@
+    bot_twist_linear_x: 2.0
+    bot_twist_linear_y: 5.0
+    bot_twist_linear_z: -3.0
+    bot_twist_angular_x: 6.0
+    bot_twist_angular_y: 8.0
+    bot_twist_angular_z: 1.8
