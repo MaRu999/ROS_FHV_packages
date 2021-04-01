@@ -6,6 +6,10 @@ Contains all python scripts done for the exercises.
 ### go_to_nearest.py
 Script for heading towards nearest object that robot can detect with its LIDAR sensor.
 The robot will stop a short distance before the object.
+Note: currently assumes 360 samples from LaserScan.
+### go_to_nearest_generic.py
+Same as go_to_nearest, but does not make any assumptions about sample size.
+Tries to scale the samples accordingly.
 ### image_show.py
 Shows image captured by the robot's camera.
 Needs robot model with camera (e.g. waffle) to work.
@@ -25,6 +29,10 @@ Currently completely independen from any turtlebot functionality (can be changed
 ### wall_follow_complex.py
 A more complex variant of the wall_follow node, using a combination of bang bang and proportional controllers.
 Will always try to put the wall to the left of the robot.
+Note: currently assumes 360 samples from LaserScan.
+### wall_follow_generic.py
+Same as wall_follow_complex, but does not make any assumptions about sample size.
+Tries to scale the samples accordingly.
 ### wall_follow.py
 A very simple wall follower that only uses 10 beams of the lidar sensor.
 Only really works with very simple stages.
@@ -44,7 +52,11 @@ The wall follower will print the angles currently used for twist.angular.z to th
 Note: sometimes, the scan topic stops receiving messages (even though gazebo continues running).
 Should the turtlebot stop wall following, check whether there are still new prints to the screen or not.
 ### complex_wall_follow_world.launch
-Same as "complex_wall_follow_stage_1", only using the world launch file instead of the stage 1 launch file.
+Same as "complex_wall_follow_stage_1.launch", only using the world launch file instead of the stage 1 launch file.
+### generic_wall_follow_stage_1.launch
+Same as "complex_wall_follow_stage_1.launch", but uses wall_follow_generic.py.
+### generic_wall_follow_world.launch
+Same as "complex_wall_follow_world.launch", but uses wall_follow_generic.py.
 ### goto_simple.launch
 Loads the very simple world (only one object in close proximity to the robot and one further away), spawns a robot and launches a go_to_nearest node.
 Robot should head straight for the object.
@@ -54,6 +66,12 @@ The closest one should be to the left of the initial robot position if the world
 ### goto_world.launch
 Also similar to goto_simple, only for this launch file, the world launch file from the turtlebot3 package is used.
 The closest object should be the wall behind the robot's initial position.
+### goto_generic_simple.launch
+Same as "goto_simple.launch", but uses go_to_nearest_generic.py.
+### goto_generic_spheres.launch
+Same as "goto_spheres.launch", but uses go_to_nearest_generic.py.
+### goto_generic_world.launch
+Same as "goto_world.launch", but uses go_to_nearest_generic.py.
 ### modified_world.launch
 Loads the modified world provided for the camera exercise and spawns a robot in it.
 Used in the show_image launch file.
